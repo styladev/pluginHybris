@@ -8,6 +8,22 @@ The plugin relies on hybris’ Service Layer Architecture and needs version 5.0 
 
 Please consult the [documentation](https://github.com/styladev/pluginHybris/tree/master/documentation) folder for information on how to install and configure the plugin. 
 
+### New Layout Engine
+
+If you start using Styla in 2018 or want to switch afterwards, you will use Styla's New Layout Engine. 
+
+In order to do that, please make sure that you do the change introduced in v 2.2 of the documentation in the table on page 11:
+
+**was in 2.1:**
+`styla.scripts.baseurl  = //cdn.styla.com/scripts/clients`
+`styla.styles.baseurl   = //cdn.styla.com/styles/clients`
+
+**is in 2.2:**
+`styla.scripts.baseurl  = //client-scripts.styla.com/scripts/clients`
+`styla.styles.baseurl   = //client-scripts.styla.com/styles/clients`
+
+Only the settings below will make using the NLE possible. You set them in project.properties or in your local.properties.
+
 ## Setup Process
 
 The process of setting up your Content Hub(s) usually goes as follows:
