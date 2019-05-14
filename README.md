@@ -10,7 +10,7 @@ Please consult the [documentation](https://github.com/styladev/pluginHybris/tree
 
 ### New Layout Engine
 
-If you start using Styla in 2018 or want to switch afterwards, you will use Styla's New Layout Engine. 
+If you start using Styla in 2018 or want to switch afterwards, you will use Styla's New Layout Engine that is able to render not only Magazines but also Pages. 
 
 In order to do that, please make sure that you do the change introduced in v 2.2 of the documentation in the table on page 11:
 
