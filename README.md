@@ -1,6 +1,6 @@
 # Styla Hybris Plugin
 
-This plugin connects your Hybris Store with [Styla](http://www.styla.com/) magazine. The first diagram on [this page](https://styladocs.atlassian.net/wiki/spaces/CO/pages/9961481/Technical+Integration) should provide you an overview of what the plugin does and how it exchanges data with Styla. 
+This plugin connects your Hybris Store with [Styla](http://www.styla.com/) by embedding Styla content on a specific path and providing a source of product data. [This documentation page](https://docs.styla.com/) should provide you an overview of how Styla works in general. 
 
 The plugin relies on hybris’ Service Layer Architecture and needs version 5.0 or higher.
 
