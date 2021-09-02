@@ -29,22 +29,22 @@ public abstract class AbstractStylaMagazineController extends AbstractPageContro
 	private static final Logger LOG = Logger.getLogger(AbstractStylaMagazineController.class);
 
 	@Autowired
-	ConfigurationService configurationService;
+	private ConfigurationService configurationService;
 
 	@Autowired
-	StylaSeoService stylaSeoService;
+	private StylaSeoService stylaSeoService;
 
 	@Autowired
-	CMSSiteService cmsSiteService;
+	private CMSSiteService cmsSiteService;
 
 	@Autowired
-	CommerceCommonI18NService commerceCommonI18NService;
+	private CommerceCommonI18NService commerceCommonI18NService;
 
 	@Autowired
-	StylaVersionService stylaVersionService;
+	private StylaVersionService stylaVersionService;
 
 	@Autowired
-	StylaUtilities stylaUtilities;
+	private StylaUtilities stylaUtilities;
 
 	protected String getViewForConfiguredPage(final String requestMapping, final Model model, final HttpServletRequest request,
 			final HttpServletResponse response) throws CMSItemNotFoundException
@@ -55,14 +55,19 @@ public abstract class AbstractStylaMagazineController extends AbstractPageContro
 
 		final String queryParameter = request.getRequestURI();
 		final Seo seo = stylaSeoService.getSeoForUser(stylaUtilities.getStylaUsername(), queryParameter);
-		if (seo != null && seo.getStatus() != null && seo.getStatus().intValue() == HttpServletResponse.SC_NOT_FOUND)
+
+		if ((seo == null || (seo.getStatus() != null && seo.getStatus().intValue() == HttpServletResponse.SC_NOT_FOUND))
+				&& !"styla".equalsIgnoreCase(configurationService.getConfiguration().getString("styla.seo.notfound.page", "hybris")))
 		{
 			LOG.warn("Couldn't get valid SEO from API (user: " + stylaUtilities.getStylaUsername() + ", query: " + queryParameter);
 			final ContentPageModel errorPage = getContentPageForLabelOrId(StylaaddonControllerConstants.Views.Pages.ERROR_CMS_PAGE);
 			storeCmsPageInModel(model, errorPage);
 			setUpMetaDataForContentPage(model, errorPage);
 
-			model.addAttribute(CMS_PAGE_TITLE, seo.getTitle());
+			if (seo != null)
+			{
+				model.addAttribute(CMS_PAGE_TITLE, seo.getTitle());
+			}
 			model.addAttribute(ThirdPartyConstants.SeoRobots.META_ROBOTS, ThirdPartyConstants.SeoRobots.NOINDEX_NOFOLLOW);
 			GlobalMessages.addErrorMessage(model, "system.error.page.not.found");
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);

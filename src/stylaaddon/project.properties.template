@@ -38,3 +38,5 @@ styla.apparel-de.de.enable.landingpages = false
 styla.apparel-uk.en.enable.landingpages = false
 
 csrf.allowed.url.patterns=(/magazine/cart/add)$,/[^/]+(/[^?]*)+(sop/response)$,/[^/]+(/[^?]*)+(merchant_callback)$,/[^/]+(/[^?]*)+(hop/response)$,/[^/]+(/[^?]*)+(language)$,/[^/]+(/[^?]*)+(currency)$
+
+styla.seo.notfound.page=styla
