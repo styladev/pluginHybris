@@ -1,0 +1,35 @@
+Installation for hybris B2C accelerator
+
+1.  To your config/localextensions.xml add the entry for the stylaaddon extension
+
+    <extension name='stylaaddon' />
+
+2.  From bin/platform call
+
+    ant addoninstall -Daddonnames="stylaaddon"  -DaddonStorefront.yacceleratorstorefront="yacceleratorstorefront"
+
+3.  Copy 
+    
+    {HYBRIS_HOME}/hybris/bin/custom/stylaaddon/acceleratoraddon/web/webroot/WEB-INF/views/desktop/pages/layout/*
+
+    to
+    
+    {HYBRIS_HOME}/hybris/bin/ext-template/yacceleratorstorefront/web/webroot/WEB-INF/views/desktop/pages/layout/
+
+    and
+    
+    {HYBRIS_HOME}/hybris/bin/acceleratoraddon/web/webroot/WEB-INF/tags/shared/styla
+    
+    to
+    
+    {HYBRIS_HOME}/hybris/bin/ext-template/yacceleratorstorefront/web/webroot/WEB-INF/tags/shared/
+    
+4.  Edit {yacceleratorstorefront}/web/webroot/WEB-INF/tags/desktop/template/master.tag adding
+
+    <%@ taglib prefix="styla" tagdir="/WEB-INF/tags/shared/styla" %> to the taglib list and
+    
+    <styla:styla/> within the <head> element
+
+5.  Start hybris and perform an impex of the cms-content.impex file located under
+
+    {HYBRIS_HOME}/hybris/bin/custom/stylaaddon/resources/stylaaddon/import/contentCatalogs/<storename>
