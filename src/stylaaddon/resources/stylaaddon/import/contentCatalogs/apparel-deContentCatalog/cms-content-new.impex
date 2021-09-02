@@ -1,0 +1,67 @@
+$contentCatalog=apparel-deContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$jarResourceCms=jar:com.styla.constants.StylaaddonConstants&/stylaaddon/import/cockpit/cmscockpit
+
+# Language
+$lang=de
+
+# PageTemplates
+# These define the layout for pages
+# "FrontendTemplateName" is used to define the JSP that should be used to render the page for pages with multiple possible layouts.
+# "RestrictedPageTypes" is used to restrict templates to page types
+INSERT_UPDATE PageTemplate;$contentCV[unique=true];uid[unique=true];name;frontendTemplateName;restrictedPageTypes(code);active[default=true]
+;;StylaMagazinePageTemplate;Styla Magazine Page Template;addon:/stylaaddon/pages/layout/stylaMagazineLayoutPage;ContentPage
+
+# Contentslot Names for Page Templates
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true][default='StylaMagazinePageTemplate'];validComponentTypes(code);compTypeGroup(code)
+;SiteLogo;;;logo
+;HeaderLinks;;;headerlinks
+;SearchBox;;;searchbox
+;MiniCart;;;minicart
+;NavigationBar;;;navigation
+;Section1;;;wide
+#;Section2A;;;narrow
+#;Section2B;;;wide
+#;Section3;;;wide
+;Footer;;;footer
+;TopHeaderSlot;;;wide
+;BottomHeaderSlot;;;wide
+;PlaceholderContentSlot;;;
+
+# ContentPages
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];name;masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+;;stylamagazine;Styla Magazine;StylaMagazinePageTemplate;/stylamagazine
+#;;stylamagazine;Styla Magazine;ContentPage1Template;/stylamagazine
+
+# CmsComponents
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;&componentRef
+#;;StylaSeoContentComponent;Html body content for magazine page;stylaBody.jsp;StylaSeoContentComponent
+;;StylaMagazinePlaceholder;Placeholder for Styla Magazine Content;/WEB-INF/views/addons/stylaaddon/responsive/pages/layout/stylaBody.jsp;StylaSeoContentComponent;StylaMagazinePlaceholder;;;;​
+
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
+#;;StylaMagazineDivPlaceholder;Placeholder for Styla Magazine Content;StylaMagazineDivPlaceholder;;;;​
+
+# CMS Paragraph Component (Contact information)
+UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];content[lang=$lang]
+#;;StylaMagazineDivPlaceholder;<div id="stylaMagazine" data-rootpath="/yacceleratorstorefront/de/magazin"></div>​
+
+# ContentSlot 
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+#;;Section1Slot-StylaMagazineContent;Section1 Slot for Styla Magazine Page;true;StylaMagazineDivPlaceholder,StylaSeoContentComponent;;;
+;;Section1Slot-StylaMagazineContent;Section1 Slot for Styla Magazine Page;true;StylaMagazineDivPlaceholder,StylaSeoContentComponent;;;
+
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true][default='StylaMagazinePageTemplate'];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;SiteLogo-StylaMagazinaPage;SiteLogo;;SiteLogoSlot;true
+;;HomepageLink-StylaMagazinaPage;HomepageNavLink;;HomepageNavLinkSlot;true
+;;NavigationBar-StylaMagazinaPage;NavigationBar;;NavigationBarSlot;true
+;;MiniCart-StylaMagazinaPage;MiniCart;;MiniCartSlot;true
+;;Footer-StylaMagazinaPage;Footer;;FooterSlot;true
+;;HeaderLinks-StylaMagazinaPage;HeaderLinks;;HeaderLinksSlot;true
+;;SearchBox-StylaMagazinaPage;SearchBox;;SearchBoxSlot;true
+;;TopHeaderSlot-StylaMagazinaPage;TopHeaderSlot;;TopHeaderSlot;true
+;;BottomHeaderSlot-StylaMagazinaPage;BottomHeaderSlot;;BottomHeaderSlot;true
+;;PlaceholderContentSlot-StylaMagazinaPage;PlaceholderContentSlot;;PlaceholderContentSlot;true
+
+# ContentSlotForPage 
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='stylamagazine'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section1-StylaMagazineContent;Section1;;Section1Slot-StylaMagazineContent;;;
