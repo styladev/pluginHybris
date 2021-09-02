@@ -58,8 +58,9 @@ public class DefaultStylaSeoService implements StylaSeoService
 		Assert.notNull(username, "Parameter [username] must not be null");
 		Assert.notNull(param, "Parameter [param] must not be null");
 		final String cacheKey = STYLA_CACHE_PREFIX + username + STYLA_CACHE_PARAM_SEPARATOR + param;
-		Cache.ValueWrapper value = getStylaSeoCache(cacheKey);
-		if (value != null && value.get() != null) {
+		final Cache.ValueWrapper value = getStylaSeoCache(cacheKey);
+		if (value != null && value.get() != null)
+		{
 			return (Seo) value.get();
 		}
 
@@ -68,8 +69,11 @@ public class DefaultStylaSeoService implements StylaSeoService
 		{
 			final String seoQueryParameter = "?url=" + URLEncoder.encode(param, UTF_8);
 			LOG.debug(seoQueryParameter);
-			Seo seo = stylaWsClient.getSeo(username, seoQueryParameter);
-			putStylaSeoCache(cacheKey, seo);
+			final Seo seo = stylaWsClient.getSeo(username, seoQueryParameter);
+			if (seo != null)
+			{
+				putStylaSeoCache(cacheKey, seo);
+			}
 			return seo;
 		}
 		catch (final UnsupportedEncodingException e)
@@ -80,15 +84,18 @@ public class DefaultStylaSeoService implements StylaSeoService
 		return null;
 	}
 
-	private void putStylaSeoCache(String cacheKey, Seo seo) {
+	private void putStylaSeoCache(final String cacheKey, final Seo seo)
+	{
 		getStylaSeoCache().put(cacheKey, seo);
 	}
 
-	private Cache.ValueWrapper getStylaSeoCache(String cacheKey) {
+	private Cache.ValueWrapper getStylaSeoCache(final String cacheKey)
+	{
 		return getStylaSeoCache().get(cacheKey);
 	}
 
-	private Cache getStylaSeoCache() {
+	private Cache getStylaSeoCache()
+	{
 		return stylaCacheManager.getCache(STYLA_SEO_CACHE_NAME);
 	}
 }
